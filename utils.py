@@ -6,15 +6,16 @@ import pandas as pd
 from sklearn.utils import shuffle
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 
-def load_data():
+def load_data(shuffle = False):
     # default data path
     train_path = './data/aps_failure_training_set.csv'
     test_path = './data/aps_failure_test_set.csv'
     # load
     train_X = pd.read_csv(train_path, skiprows=20)
     test_X = pd.read_csv(test_path, skiprows=20)
-    train_X = shuffle(train_X)
-    test_X = shuffle(test_X)
+    if(shuffle == True):
+        train_X = shuffle(train_X)
+        test_X = shuffle(test_X)
     # X,y split
     train_y = pd.DataFrame.copy(train_X['class'])
     test_y = pd.DataFrame.copy(test_X['class'])
@@ -29,10 +30,9 @@ def load_data():
 
 
 def total_cost(y_true, y_pred):
-    # y_true, y_pred: numpy array with 1 and 0
-    FP = (y_true != y_pred) * y_pred
-    FN = (y_true != y_pred) * y_true
-    return 10 * np.sum(FP)/len(y_true) + 500 * np.sum(FN)/len(y_true)
+    FP = ((y_pred >  0) & (y_true == 0)).sum()
+    FN = ((y_pred <= 0) & (y_true == 1)).sum()
+    return 10 * FP + 500 * FN
 
 
 def metrics(y_true, y_pred):

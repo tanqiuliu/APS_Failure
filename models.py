@@ -16,3 +16,8 @@ def evaluate(X, y, mdl):
     return np.mean(cross_val_score(mdl, X, y, scoring=tcost, cv=n_fold,n_jobs=4))
 
 
+def get_FP(X, y_true, y_pred):
+    return np.where((y_pred >  0) & (y_true == 0))
+
+def get_FN(X, y_true, y_pred):
+    return np.where((y_pred <=  0) & (y_te == 1))

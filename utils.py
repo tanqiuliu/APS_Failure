@@ -3,8 +3,12 @@
 
 import numpy as np
 import pandas as pd
+import sklearn
 from sklearn.utils import shuffle
 from sklearn.metrics import accuracy_score, precision_score, recall_score
+from sklearn.model_selection import cross_val_score
+from sklearn.metrics import make_scorer
+from preprocessing import *
 
 def load_data(shuffle = False):
     # default data path
@@ -30,8 +34,8 @@ def load_data(shuffle = False):
 
 
 def total_cost(y_true, y_pred):
-    FP = ((y_pred >  0) & (y_true == 0)).sum()
-    FN = ((y_pred <= 0) & (y_true == 1)).sum()
+    FP = ((y_pred == 1) & (y_true == 0)).sum()
+    FN = ((y_pred == 0) & (y_true == 1)).sum()
     return 10 * FP + 500 * FN
 
 
@@ -41,3 +45,15 @@ def metrics(y_true, y_pred):
     print("recall: %s" %recall_score(y_true, y_pred))
     print("total_cost: %s" %total_cost(y_true, y_pred))
 
+
+def evaluate(X, y, mdl):
+    tcost = make_scorer(total_cost,greater_is_better=True)
+    n_fold = 5
+    return np.mean(cross_val_score(mdl, X, y, scoring=tcost, cv=n_fold,n_jobs=4))
+
+
+def get_FP(X, y_true, y_pred):
+    return np.where((y_pred >  0) & (y_true == 0))
+
+def get_FN(X, y_true, y_pred):
+    return np.where((y_pred <=  0) & (y_te == 1))

@@ -13,7 +13,7 @@ nan_col = get_nan_col(train_X)
 zero_col = []
 # zero_col = get_zero_col(train_X)
 col_remove = list(set(nan_col+zero_col))
-col_remove = []
+
 X_tr, X_te = remove_columns(train_X, test_X, col_remove)
 
 # imputation

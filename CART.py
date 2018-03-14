@@ -31,6 +31,7 @@ cart = DecisionTreeRegressor(min_samples_leaf=70,max_depth=30)
 cart = cart.fit(X_tr, y_tr)
 y_pred = cart.predict(X_te) 
 
-print("Total_cost: %s" %total_cost(y_te, y_pred>0))
-print("Precision: %s" %precision_score(y_te, y_pred>0))
-print("Recall: %s" %recall_score(y_te, y_pred>0))
+t = 0.01667
+print("Total_cost: %s" %total_cost(y_te, y_pred>t))
+print("Precision: %s" %precision_score(y_te, y_pred>t))
+print("Recall: %s" %recall_score(y_te, y_pred>t))

@@ -4,7 +4,7 @@
 from utils import *
 from preprocessing import *
 from sklearn.ensemble import RandomForestRegressor
-
+from sklearn.model_selection import GridSearchCV
 # load data
 (train_X, train_y, test_X, test_y) = load_data()
 
@@ -27,19 +27,19 @@ X_tr, X_te = X_tr.values, X_te.values
 y_tr, y_te = train_y.values, test_y.values
 
 # model 
-# for n_esti in [10,20,40]:
-#     for mf in ['sqrt','log2',0.3333,'auto']:
+# for n_esti in [100,500,1000]:
+#     for mf in ['sqrt','log2',0.3333]:
 #         print("Running on n_esti: %s, mf: %s" %(n_esti, mf))
 #         RF = RandomForestRegressor(n_estimators=n_esti, max_features=mf, min_samples_leaf=1, n_jobs=4)
 #         score = evaluate(X_tr, y_tr, RF)
 #         print("Total_cost: %s\n" %(score))
 
 
-
-RF = RandomForestRegressor(n_estimators=20, max_features='log2',min_samples_leaf=1, n_jobs=4)
+RF = RandomForestRegressor(n_estimators=100, max_features=0.3333 ,min_samples_leaf=1, n_jobs=8)
 RF = RF.fit(X_tr, y_tr)
 y_pred = RF.predict(X_te)
 
-print("Total_cost: %s" %total_cost(y_te, y_pred>0))
-print("Precision: %s" %precision_score(y_te, y_pred>0))
-print("Recall: %s" %recall_score(y_te, y_pred>0))
+t = 0.01667
+print("Total_cost: %s" %total_cost(y_te, y_pred>t))
+print("Precision: %s" %precision_score(y_te, y_pred>t))
+print("Recall: %s" %recall_score(y_te, y_pred>t))

@@ -33,9 +33,9 @@ def load_data(shuffle = False):
     return train_X, train_y, test_X, test_y
 
 
-def total_cost(y_true, y_pred):
-    FP = ((y_pred > 0) & (y_true == 0)).sum()
-    FN = ((y_pred <= 0) & (y_true == 1)).sum()
+def total_cost(y_true, y_pred, threshold=0.01667):
+    FP = ((y_pred > threshold) & (y_true == 0)).sum()
+    FN = ((y_pred <= threshold) & (y_true == 1)).sum()
     return 10 * FP + 500 * FN
 
 

@@ -34,8 +34,8 @@ def load_data(shuffle = False):
 
 
 def total_cost(y_true, y_pred):
-    FP = ((y_pred == 1) & (y_true == 0)).sum()
-    FN = ((y_pred == 0) & (y_true == 1)).sum()
+    FP = ((y_pred > 0) & (y_true == 0)).sum()
+    FN = ((y_pred <= 0) & (y_true == 1)).sum()
     return 10 * FP + 500 * FN
 
 

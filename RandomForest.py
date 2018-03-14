@@ -36,7 +36,7 @@ y_tr, y_te = train_y.values, test_y.values
 
 
 
-RF = RandomForestRegressor(n_estimators=25, max_features=0.3333,min_samples_leaf=1, n_jobs=4)
+RF = RandomForestRegressor(n_estimators=20, max_features='log2',min_samples_leaf=1, n_jobs=4)
 RF = RF.fit(X_tr, y_tr)
 y_pred = RF.predict(X_te)
 
